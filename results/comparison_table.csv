@@ -1,0 +1,4 @@
+damage_side,n_missing,cond_A,sparse_fac_ms,sparse_solve_ms,sparse_residual,dense_fac_ms,dense_solve_ms,dense_residual
+20,400,178.064274610861,0.87,0.058,0.0,94.086,0.174,0.0
+40,1600,989.2689755980398,2.549,0.132,0.0,195.051,1.075,0.0
+60,3600,2191.5849034096623,6.168,0.474,0.0,433.48,4.133,0.0

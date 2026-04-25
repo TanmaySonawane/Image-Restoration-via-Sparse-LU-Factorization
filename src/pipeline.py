@@ -123,7 +123,7 @@ def run_demo(
     # Phase 1 — damage
     if damage_type == "rect":
         defaults = dict(row_start=H//4, col_start=W//4,
-                        height=H//4,    width=W//4)
+                        height=H//12,   width=W//12)
         defaults.update(kw)
         di = damage_rectangle(image, **defaults)
     else:

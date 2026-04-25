@@ -228,10 +228,18 @@ def condition_number_sparse(system: LaplacianSystem) -> float:
     if n <= 500:
         return float(np.linalg.cond(A.toarray()))
 
-    # 1-norm of A is cheap for sparse matrices
-    norm_A   = spla.norm(A, ord=1)
-    # 1-norm of A⁻¹ estimated via power iteration
-    norm_Ainv = spla.onenormest(A)          # returns estimate of ||A⁻¹||₁
+    # Factor A once, then use its solve as a LinearOperator so onenormest
+    # can estimate ||A⁻¹||₁ via matrix-vector products with A⁻¹.
+    # onenormest also needs rmatvec (the transpose direction).
+    # The Laplacian is symmetric so A⁻ᵀ = A⁻¹, solved with trans='T'.
+    lu        = spla.splu(A.tocsc())
+    Ainv_op   = spla.LinearOperator(
+        A.shape,
+        matvec  = lu.solve,
+        rmatvec = lambda x: lu.solve(x, trans='T'),
+    )
+    norm_A    = spla.norm(A, ord=1)
+    norm_Ainv = spla.onenormest(Ainv_op)
     return float(norm_A * norm_Ainv)
 
 
